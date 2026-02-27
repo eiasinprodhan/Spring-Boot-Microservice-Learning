@@ -1,7 +1,9 @@
 package com.eiasinprodhan.address.service;
 
+import com.eiasinprodhan.address.client.EmployeeClient;
 import com.eiasinprodhan.address.dto.request.AddressRequest;
 import com.eiasinprodhan.address.dto.response.AddressResponse;
+import com.eiasinprodhan.address.dto.response.EmployeeResponse;
 import com.eiasinprodhan.address.entity.Address;
 import com.eiasinprodhan.address.exception.BadRequestException;
 import com.eiasinprodhan.address.exception.ResourceNotFoundException;
@@ -18,9 +20,12 @@ public class AddressServiceImp implements AddressService {
 
     private final AddressRepository addressRepository;
     private final ModelMapper modelMapper;
+    private final EmployeeClient employeeClient;
 
     @Override
     public AddressResponse saveAddress(AddressRequest addressRequest) {
+
+        EmployeeResponse employeeResponse = employeeClient.getEmployee(addressRequest.getEmployeeId());
 
         if (addressRequest == null) {
             throw new BadRequestException("AddressRequest is Null");
