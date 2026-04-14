@@ -1,0 +1,32 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: EMPLOYEE
+          uri: lb://EMPLOYEE
+          predicates:
+            - Path=/employees/**
+          filters:
+            - AuthFilter
+
+        - id: ADDRESS
+          uri: lb://ADDRESS
+          predicates:
+            - Path=/address/**
+          filters:
+            - AuthFilter
+
+        - id: AUTH
+          uri: lb://AUTH
+          predicates:
+            - Path=/api/auth/**
